@@ -60,10 +60,42 @@ describe("GET /api/reviews/:review_id", () => {
                     votes: 1,
                     category: 'euro game',
                     owner: 'mallionaire',
-                    created_at:expect.any(String),
+                    created_at: expect.any(String),
+                })
+                
+            })
+    });
+
+    test('200: responds with the correct review object with the correct comment_count', () => {
+        return request(app)
+            .get("/api/reviews/1")
+            .expect(200)
+            .then(({ body }) => {
+                const { review } = body;
+                expect(review).toMatchObject({
+                    comment_count: 0
                 })
             })
     });
-})
+
+    test('404: responds with a not found message when passed an id not stored', () => {
+        return request(app)
+            .get("/api/reviews/99999")
+            .expect(404)
+            .then((response) => {
+                expect(response.body.msg).toBe("Not Found");
+            })
+    });
+
+    test('400: responds with a bad request message when passed a wrong id', () => {
+        return request(app)
+        .get("/api/reviews/Adam")
+        .expect(400)
+        .then((response) => {
+            expect(response.body.msg).toBe("bad request");
+        })
+    });
+    
+});
 
     

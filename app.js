@@ -12,16 +12,28 @@ app.get("/api/reviews/:review_id", getReview);
 
 
 // custom errors
-app.use("/*", (req, res, next) => {
-    res.status(404).send({ msg: "Not Found" });
-  });
 
+
+app.use("*", (req, res) => {
+  res.status(404).send({ msg: "Not Found" });
+});
 
 app.use((err, req, res, next) => {
-  res.status(500).send({ msg: "Not Found" });
-
-  console.log(err);
+  if (err.msg) {
+    res.status(err.status).send({ msg: err.msg });
+  } else if (err.code) {
+    console.log(err);
+    res.status(400).send({ msg: "bad request" });
+  } else {
+    next(err);
+  }
 });
+
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.status(500).send({ msg: "server error" });
+});
+
 
 // PSQL errors
 
