@@ -1,18 +1,17 @@
 const express = require("express");
-const { getCategories } = require ("./controller/catg-controller")
-const { getReview } = require ("./controller/review-contreller")
+const { getCategories } = require("./controller/catg-controller");
+const {
+  getReview,
+  updateReviewVotes,
+} = require("./controller/review-contreller");
 const app = express();
-
-
-
-
+app.use(express.json())
 //ROUTER
 app.get("/api/categories", getCategories);
 app.get("/api/reviews/:review_id", getReview);
-
+app.patch("/api/reviews/:review_id", updateReviewVotes);
 
 // custom errors
-
 
 app.use("*", (req, res) => {
   res.status(404).send({ msg: "Not Found" });
@@ -33,7 +32,6 @@ app.use((err, req, res, next) => {
   console.log(err);
   res.status(500).send({ msg: "server error" });
 });
-
 
 // PSQL errors
 
