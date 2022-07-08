@@ -7,14 +7,12 @@ exports.getReview = (req, res, next) => {
       res.status(200).send({ review });
     })
     .catch((err) => {
-      // console.log(err,"<<<<<<");
       next(err);
     });
 };
 
 exports.updateReviewVotes = (req, res, next) => {
   const id = req.params.review_id;
-
   const { inc_votes } = req.body;
   fetchUpdateVotes(id, inc_votes)
     .then((updatedReview) => {
@@ -24,5 +22,3 @@ exports.updateReviewVotes = (req, res, next) => {
       next(err);
     });
 };
-
-
