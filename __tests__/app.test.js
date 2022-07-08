@@ -63,18 +63,7 @@ describe("GET /api/reviews/:review_id", () => {
       });
   });
 
-  test("200: responds with the correct review object with the correct comment_count", () => {
-    return request(app)
-      .get("/api/reviews/1")
-      .expect(200)
-      .then(({ body }) => {
-        const { review } = body;
-        expect(review).toMatchObject({
-          comment_count: 0,
-        });
-      });
-  });
-
+      
   test("404: responds with a not found message when passed an id not stored", () => {
     return request(app)
       .get("/api/reviews/99999")
@@ -94,7 +83,7 @@ describe("GET /api/reviews/:review_id", () => {
   });
 });
 
-describe.only("PATCH /api/reviews/:review_id", () => {
+describe("PATCH /api/reviews/:review_id", () => {
   test("status 200 , responds with the corresponding review with incremented votes", () => {
     const newVotes = {
       inc_votes: 1,

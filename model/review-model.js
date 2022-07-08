@@ -3,8 +3,7 @@ const db = require("../db/connection");
 exports.fetchReview = (id) => {
   return db
     .query(
-      `SELECT reviews.*,
-         CAST(COUNT(comments.comment_id) AS INTEGER) AS comment_count 
+      `SELECT reviews.* 
          FROM reviews LEFT JOIN comments 
          ON reviews.review_id = comments.review_id
          WHERE reviews.review_id = $1 
